@@ -1,0 +1,4 @@
+.idea
+Env
+*.sql*
+__pycache__
