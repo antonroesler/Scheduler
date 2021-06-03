@@ -1,4 +1,8 @@
 .idea
-Env
+venv
+env
 *.sql*
 __pycache__
+bin
+lib
+etc
