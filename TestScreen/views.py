@@ -34,7 +34,6 @@ def diagram(request):
 def addProcess(request):
     if request.method == "POST":
         form = ProcessForm(request.POST)
-
         if form.is_valid():
             process = Process(name=form.cleaned_data['name'], arrival=form.cleaned_data['arrival'], burst=form.cleaned_data['burst'], session=1)
             print(process.name)

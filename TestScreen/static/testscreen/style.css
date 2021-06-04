@@ -1,18 +1,20 @@
-/*
-COLOR DEFINITION
-Primary:       #6200EE
-Primary Var:   #3700B3
-Secondary:     #03DAC6
-Secondary Var: #018786
-Error:         #B00020
- */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Roboto&display=swap');
 
+.dark-primary-color    { background: #FFA000; }
+.default-primary-color { background: #FFC107; }
+.light-primary-color   { background: #FFECB3; }
+.text-primary-color    { color: #212121; }
+.accent-color          { background: #536DFE; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
 
 html, body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
+    height: 100%;
+    color: #494949;
 }
 
 h1, h2, h3, h4 {
@@ -20,9 +22,8 @@ h1, h2, h3, h4 {
 }
 
 header {
-    background-color: #6200EE;
-    color: #FFFFFF;
     padding: 1rem;
+    height: 5rem;
 }
 header h1{
     margin: 0 0 0.5rem 0;
@@ -31,23 +32,40 @@ header h1{
 
 nav > a{
     text-decoration: none;
-    color: #FFFFFF;
-    background-color: #018786;
     padding: 0.5rem;
     margin: 0 0.5rem 0 0;
     border-radius: 1rem;
     display: inline-block;
     min-width: 5rem;
     text-align: center;
+    background: #FFECB3;
+    color: #212121;
 }
 
 nav > a:hover{
-    background-color: #03DAC6;
+    background-color: #536DFE;
+    color: #FFFFFF;
+}
+
+#choose-algo {
+    height: 3rem;
+    padding: 1rem;
+    display: flex;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+
+#choose-algo select {
+    border: 0;
+    border-radius: 1rem;
+    outline: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 #add-section{
-    color: #FFFFFF;
-    background-color: #6200EE;
+    float: bottom;
     padding: 0.5rem;
     display: flex;
     text-align: center;
@@ -74,8 +92,6 @@ nav > a:hover{
 
 #add-section button {
     text-decoration: none;
-    color: #FFFFFF;
-    background-color: #018786;
     padding: 0.5rem;
     margin: 0 0.5rem 0 0;
     border-radius: 1rem;
@@ -84,8 +100,13 @@ nav > a:hover{
     text-align: center;
     border: 0;
 }
+
 #add-section button:hover {
-    background-color: #03DAC6;
+    background-color: #a4a4a4;
+}
+
+#add-section button:last-child:hover {
+    background-color: #B00020;
 }
 
 input:focus{
@@ -94,14 +115,10 @@ input:focus{
 
 #diagram-section {
     width: 100%;
-    height: 600px;
-}
-#container {
-    width: 100%;
-    height: 600px;
+    height: auto;
 }
 
-#container > div {
+#divPlotly {
     width: 100%;
-    height: 600px;
+    height: auto;
 }

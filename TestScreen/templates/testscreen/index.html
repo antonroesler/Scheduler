@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-primary-color primary-text-color">
 <head>
     <meta charset="UTF-8">
     <title>Index Page</title>
@@ -11,7 +11,8 @@
 </head>
 
 <body>
-    <header>
+<div id="upper-bound">
+    <header class="dark-primary-color">
         <h1>Visualization of Scheduling Algorithms</h1>
         <nav>
             <a href="https://www.antonroesler.de/scheduler">About</a>
@@ -20,6 +21,17 @@
             <a href="https://www.linkedin.com/in/antonroesler/?locale=en_US">Linkedin</a>
         </nav>
     </header>
+    <section id="choose-algo" class="light-primary-color">
+        <select name="algo" id="algo-dropdown">
+            <option value="volvo">First Come First Served</option>
+            <option value="sjf">Shortest Job First</option>
+            <option value="hrrn">Highest Response Ratio Next</option>
+            <option value="srtf">Shortest Remaining Time First</option>
+            <option value="lrtf">Longest Remaining Time First</option>
+            <option value="rr">Round Robin</option>
+        </select>
+    </section>
+    </div>
 
     <section id="diagram-section">
          <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -43,7 +55,13 @@
                 <span>Burst</span>
                 {{ form.burst }}
             </div>
-            <button>Add</button>
+
+
+
+
+
+            <button onclick="refreshDiagram()">Add</button>
+            <button>Delete All</button>
         </form>
     </section>
 
