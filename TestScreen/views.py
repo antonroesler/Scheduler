@@ -4,9 +4,13 @@ import time
 import datetime as datetime
 from django.http.response import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.http import require_POST, require_http_methods
 
 from .forms import ProcessForm
 # Create your views here.
+
+import plotly
+
 
 import plotly.express as px
 from plotly.offline import plot
@@ -29,12 +33,13 @@ plt_div = plot(fig, output_type='div', config=dict(
 def index(request):
     form = ProcessForm()
     return render(request, "testscreen/index.html", {
-        "fig": plt_div,
         "form": form
     })
 
 def diagram(request):
-    data = {
-        'my_data': plt_div
-    }
-    return JsonResponse(data);
+    return JsonResponse(fig.to_json(), safe=False)
+
+def update(request):
+    fig_json = fig.to_json()
+
+    return 'OK'
