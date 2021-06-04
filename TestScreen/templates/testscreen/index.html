@@ -14,10 +14,10 @@
     <header>
         <h1>Visualization of Scheduling Algorithms</h1>
         <nav>
-            <a href="www.antonroesler.de/scheduler">About</a>
-            <a href="www.github.com/antonroesler/Scheduler">Code</a>
-            <a href="www.antonroesler.de">My Website</a>
-            <a href="www.linkedin.com/antonroelser">Linkedin</a>
+            <a href="https://www.antonroesler.de/scheduler">About</a>
+            <a href="https://www.github.com/antonroesler/Scheduler">Code</a>
+            <a href="https://www.antonroesler.de">My Website</a>
+            <a href="https://www.linkedin.com/in/antonroesler/?locale=en_US">Linkedin</a>
         </nav>
     </header>
 
@@ -27,8 +27,8 @@
     </section>
 
     <section id="add-section">
-        <form>
-
+        <form method="POST" action="/add">
+            {% csrf_token %}
             <div>
                 <span>Process</span>
                 {{ form.name }}
@@ -43,11 +43,6 @@
                 <span>Burst</span>
                 {{ form.burst }}
             </div>
-
-
-
-
-
             <button>Add</button>
         </form>
     </section>

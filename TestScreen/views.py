@@ -1,34 +1,18 @@
 import datetime
 import time
 
-import datetime as datetime
+import datetime
 from django.http.response import JsonResponse
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.views.decorators.http import require_POST, require_http_methods
 
 from .forms import ProcessForm
-# Create your views here.
+from .models import Process
+from .simulator import Simulator
 
-import plotly
+import plotly.figure_factory as ff
 
-
-import plotly.express as px
-from plotly.offline import plot
-import pandas as pd
-
-df = pd.DataFrame([
-    dict(Task="Job X", Start=datetime.datetime(1970, 1, 1, 1, 1, 0), Finish=datetime.datetime(1970, 1, 1, 1, 1, 15)),
-    dict(Task="Job A", Start=datetime.datetime(1970, 1, 1, 1, 1, 15), Finish=datetime.datetime(1970, 1, 1, 1, 1, 19)),
-    dict(Task="Job B", Start=datetime.datetime(1970, 1, 1, 1, 1, 30), Finish=datetime.datetime(1970, 1, 1, 1, 1, 35)),
-    dict(Task="Job C", Start=datetime.datetime(1970, 1, 1, 1, 1, 19), Finish=datetime.datetime(1970, 1, 1, 1, 1, 30)),
-
-])
-
-fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task", color="Task")
-fig.update_yaxes(autorange="reversed") # otherwise tasks are listed from the bottom up
-plt_div = plot(fig, output_type='div', config=dict(
-                    displayModeBar=False
-                ))
 
 def index(request):
     form = ProcessForm()
@@ -37,9 +21,25 @@ def index(request):
     })
 
 def diagram(request):
+    s = Simulator()
+    s.load()
+    s.scheduler.non_preemtive_algorithms(sjf=True)
+    data = s.scheduler.data_plotly_formatted()
+    data = sorted(data, key=lambda i: i['Task'])
+    fig = ff.create_gantt(data, group_tasks=True, showgrid_x=True, title= "ALGO" + " visualized:",
+                          colors=s.scheduler.get_colors(), index_col='Task', show_colorbar=False)
+    fig.layout.xaxis.tickformat = "%Mm %Ss"  # Show minutes and Seconds as '00m 00s'
     return JsonResponse(fig.to_json(), safe=False)
 
-def update(request):
-    fig_json = fig.to_json()
+def addProcess(request):
+    if request.method == "POST":
+        form = ProcessForm(request.POST)
 
-    return 'OK'
+        if form.is_valid():
+            process = Process(name=form.cleaned_data['name'], arrival=form.cleaned_data['arrival'], burst=form.cleaned_data['burst'], session=1)
+            print(process.name)
+            print(process.arrival)
+            print(process.burst)
+            process.save()
+            return HttpResponse(status=204)
+    return HttpResponse(status=500)
