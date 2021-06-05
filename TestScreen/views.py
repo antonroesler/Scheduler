@@ -28,6 +28,12 @@ def diagram(request):
     data = sorted(data, key=lambda i: i['Task'])
     fig = ff.create_gantt(data, group_tasks=True, showgrid_x=True, title= "ALGO" + " visualized:",
                           colors=s.scheduler.get_colors(), index_col='Task', show_colorbar=False)
+    fig.update_layout(
+        font_family="Menlo",
+        font_color="white",
+        title_font_family="Roboto",
+        title_font_color="white",
+    )
     fig.layout.xaxis.tickformat = "%Mm %Ss"  # Show minutes and Seconds as '00m 00s'
     return JsonResponse(fig.to_json(), safe=False)
 

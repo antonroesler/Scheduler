@@ -5,31 +5,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Index Page</title>
-
-    <link rel="stylesheet" href="{% static 'testscreen/style.css' %}">
     <script src="{% static 'testscreen/test.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'testscreen/style.css' %}">
 </head>
 
 <body>
 <div id="upper-bound">
-    <header class="dark-primary-color">
-        <h1>Visualization of Scheduling Algorithms</h1>
-        <nav>
-            <a href="https://www.antonroesler.de/scheduler">About</a>
-            <a href="https://www.github.com/antonroesler/Scheduler">Code</a>
-            <a href="https://www.antonroesler.de">My Website</a>
-            <a href="https://www.linkedin.com/in/antonroesler/?locale=en_US">Linkedin</a>
-        </nav>
+    <header>
+        <div class="flex-container">
+            <div>
+                <h1>Visualization of Scheduling Algorithms</h1>
+                <span style="font-family: 'Roboto'; font-style: italic;">by Anton Rösler</span>
+            </div>
+
+            <nav>
+                <a href="https://www.antonroesler.de/scheduler">About</a>
+                <a href="https://www.github.com/antonroesler/Scheduler">Code</a>
+                <a href="https://www.antonroesler.de">My Website</a>
+                <a href="https://www.linkedin.com/in/antonroesler/?locale=en_US">Linkedin</a>
+            </nav>
+        </div>
     </header>
-    <section id="choose-algo" class="light-primary-color">
-        <select name="algo" id="algo-dropdown">
-            <option value="volvo">First Come First Served</option>
-            <option value="sjf">Shortest Job First</option>
-            <option value="hrrn">Highest Response Ratio Next</option>
-            <option value="srtf">Shortest Remaining Time First</option>
-            <option value="lrtf">Longest Remaining Time First</option>
-            <option value="rr">Round Robin</option>
-        </select>
+    <div class="flex-container" style="align-items: center">
+        <div class="thin-line"></div>
+    </div>
+
+    <section id="choose-algo">
+        <div class="custom-select" style="width:25%;">
+            <select name="algo" id="algo-dropdown">
+                <option value="fcfs">Select Scheduling Algorithm:</option>
+                <option value="fcfs">First Come First Served</option>
+                <option value="sjf">Shortest Job First</option>
+                <option value="hrrn">Highest Response Ratio Next</option>
+                <option value="srtf">Shortest Remaining Time First</option>
+                <option value="lrtf">Longest Remaining Time First</option>
+                <option value="rr">Round Robin</option>
+            </select>
+        </div>
     </section>
     </div>
 
@@ -65,6 +77,6 @@
         </form>
     </section>
 
-
+    <script src="{% static 'testscreen/dropdown.js' %}"></script>
 </body>
 </html>

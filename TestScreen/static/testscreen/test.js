@@ -11,7 +11,12 @@ async function loadDiagram(){
     const lower = getHeight("add-section");
     plotly_data.layout.height = window.innerHeight - (upper+lower);
     console.log(plotly_data['layout']);
-    Plotly.react('divPlotly', plotly_data.data, plotly_data.layout, {responsive: true});
+
+    plotly_data['layout']['paper_bgcolor'] = "#2F2fA2";
+    plotly_data['layout']['plot_bgcolor'] = "#FFF";
+    plotly_data['layout']['xaxis']['rangeselector'] = null;
+    plotly_data['layout']['template']['layout']['xaxis']['gridcolor'] = "#2F2fA2";
+    Plotly.react('divPlotly', plotly_data.data, plotly_data.layout, {responsive: true, displayModeBar: false});
 }
 
 
