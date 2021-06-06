@@ -20,10 +20,10 @@ def index(request):
         "form": form
     })
 
-def diagram(request):
+def diagram(request, algo):
     s = Simulator()
     s.load()
-    s.scheduler.non_preemtive_algorithms(sjf=True)
+    s.scheduler.run(algo)
     data = s.scheduler.data_plotly_formatted()
     data = sorted(data, key=lambda i: i['Task'])
     fig = ff.create_gantt(data, group_tasks=True, showgrid_x=True, title= "ALGO" + " visualized:",

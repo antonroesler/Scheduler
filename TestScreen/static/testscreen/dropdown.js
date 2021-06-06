@@ -74,6 +74,9 @@ function closeAllSelect(elmnt) {
   for (i = 0; i < xl; i++) {
     if (arrNo.indexOf(i)) {
       x[i].classList.add("select-hide");
+      if (i===0){
+        loadDiagram()
+      }
     }
   }
 }

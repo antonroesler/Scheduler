@@ -1,8 +1,9 @@
 
 
 async function loadDiagram(){
-    url = 'http://127.0.0.1:8000/diagram';
-    const res = await fetch(url);
+    const url = 'http://127.0.0.1:8000/diagram/';
+    const algo = document.getElementById("algo-dropdown").value;
+    const res = await fetch(url+algo);
     const data = await res.json();
     const obj = JSON.parse(data)
     console.log(obj['layout']);

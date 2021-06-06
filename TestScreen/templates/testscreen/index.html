@@ -31,9 +31,9 @@
     </div>
 
     <section id="choose-algo">
-        <div class="custom-select" style="width:25%;">
+        <div class="custom-select" style="width:33%;">
             <select name="algo" id="algo-dropdown">
-                <option value="fcfs">Select Scheduling Algorithm:</option>
+                <option value="none">Select a Scheduling Algorithm:</option>
                 <option value="fcfs">First Come First Served</option>
                 <option value="sjf">Shortest Job First</option>
                 <option value="hrrn">Highest Response Ratio Next</option>
@@ -76,7 +76,9 @@
             <button>Delete All</button>
         </form>
     </section>
-
+    <script>
+        loadDiagram()
+    </script>
     <script src="{% static 'testscreen/dropdown.js' %}"></script>
 </body>
 </html>

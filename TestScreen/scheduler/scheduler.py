@@ -231,7 +231,19 @@ class Scheduler:
         stats["rr"] = self.get_stats()
         return stats
 
-
+    def run(self, algo):
+        if algo=="sjf":
+            return self.non_preemtive_algorithms(sjf=True)
+        elif algo=="hrrn":
+            return self.non_preemtive_algorithms(hrrn=True)
+        elif algo=="srtf":
+            return self.remaining_time_first()
+        elif algo=="lrtf":
+            return self.remaining_time_first(longest=True)
+        elif algo=="rr":
+            return self.round_robin()
+        else:
+            return self.non_preemtive_algorithms()
 
     def info(self):
         for p in self.process_list:
