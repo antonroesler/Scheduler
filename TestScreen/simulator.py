@@ -1,38 +1,37 @@
-
-import plotly
-
-
-import plotly.express as px
-from plotly.offline import plot
-import pandas as pd
-import datetime
-
 from TestScreen.models import Process
 from TestScreen.scheduler.scheduler import Scheduler
 from TestScreen.scheduler.process import ProcessListAdministration
-df = pd.DataFrame([
-    dict(Task="Job X", Start=datetime.datetime(1970, 1, 1, 1, 1, 0), Finish=datetime.datetime(1970, 1, 1, 1, 1, 15)),
-    dict(Task="Job A", Start=datetime.datetime(1970, 1, 1, 1, 1, 15), Finish=datetime.datetime(1970, 1, 1, 1, 1, 19)),
-    dict(Task="Job B", Start=datetime.datetime(1970, 1, 1, 1, 1, 30), Finish=datetime.datetime(1970, 1, 1, 1, 1, 35)),
-    dict(Task="Job C", Start=datetime.datetime(1970, 1, 1, 1, 1, 19), Finish=datetime.datetime(1970, 1, 1, 1, 1, 30)),
 
-])
+from .demo_processes import processes
 
-fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task", color="Task")
-fig.update_yaxes(autorange="reversed") # otherwise tasks are listed from the bottom up
-plt_div = plot(fig, output_type='div', config=dict(
-                    displayModeBar=False
-                ))
 
 class Simulator:
-    def __init__(self):
+
+    def __init__(self, session_id=None):
         self.process_list = ProcessListAdministration()
         self.scheduler = Scheduler(self.process_list)
+        self.session_id = session_id
 
-    def add(self, name, arrival, burst, session=1):
+    def add(self, name, arrival, burst):
         self.process_list.add(name, burst, arrival)
 
-    def load(self, session=1):
-        processes = Process.objects.filter(session=session)
-        for p in processes:
-            self.add(p.name, p.arrival, p.burst, p.session)
+    def load(self, new_session=False):
+        for p in self.get_processes():
+            self.add(p.name, p.arrival, p.burst)
+        else:
+            self.load_demo()
+
+    def delete_all_processes(self):
+        self.get_processes().delete()
+        self.process_list.clear()
+
+    def get_processes(self):
+        return Process.objects.filter(session=self.session_id)
+
+    def load_demo(self):
+        for (name, arrival, burst) in processes:
+            self.add(name, arrival, burst)
+            print(name, arrival, burst, self.session_id)
+            p = Process(name=name, arrival=arrival, burst=burst, session=self.session_id)
+            p.save()
+

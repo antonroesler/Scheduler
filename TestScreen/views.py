@@ -1,4 +1,5 @@
 import datetime
+import random
 import time
 
 import datetime
@@ -20,13 +21,16 @@ def index(request):
         "form": form
     })
 
+
 def diagram(request, algo):
-    s = Simulator()
+    if request.session.get("session_id") is None:
+        request.session['session_id'] = random.randint(1000000000, 9999999999)
+    s = Simulator(request.session.get("session_id"))
     s.load()
     s.scheduler.run(algo)
     data = s.scheduler.data_plotly_formatted()
     data = sorted(data, key=lambda i: i['Task'])
-    fig = ff.create_gantt(data, group_tasks=True, showgrid_x=True, title= "ALGO" + " visualized:",
+    fig = ff.create_gantt(data, group_tasks=True, showgrid_x=True, title="ALGO" + " visualized:",
                           colors=s.scheduler.get_colors(), index_col='Task', show_colorbar=False)
     fig.update_layout(
         font_family="Menlo",
@@ -37,14 +41,18 @@ def diagram(request, algo):
     fig.layout.xaxis.tickformat = "%Mm %Ss"  # Show minutes and Seconds as '00m 00s'
     return JsonResponse(fig.to_json(), safe=False)
 
+
 def addProcess(request):
     if request.method == "POST":
         form = ProcessForm(request.POST)
         if form.is_valid():
-            process = Process(name=form.cleaned_data['name'], arrival=form.cleaned_data['arrival'], burst=form.cleaned_data['burst'], session=1)
-            print(process.name)
-            print(process.arrival)
-            print(process.burst)
+            process = Process(name=form.cleaned_data['name'], arrival=form.cleaned_data['arrival'],
+                              burst=form.cleaned_data['burst'], session=request.session.get('session_id'))
             process.save()
             return HttpResponse(status=204)
     return HttpResponse(status=500)
+
+
+def sess(request):
+    print(request.session.get("session_id"))
+    return HttpResponse(200)

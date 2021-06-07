@@ -46,3 +46,9 @@ function getHeight(element){
 function refreshDiagram(){
     setTimeout(loadDiagram,50);
 }
+
+
+function sessionIdCall(){
+    const url = "http://127.0.0.1:8000/sess"
+    fetch(url)
+}

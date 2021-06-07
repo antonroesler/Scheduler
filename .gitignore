@@ -7,4 +7,4 @@ bin
 lib
 etc
 .vscode/settings.json
-TestScreen/migrations/0001_initial.py
+TestScreen/migrations/

@@ -42,6 +42,7 @@
                 <option value="rr">Round Robin</option>
             </select>
         </div>
+        <button onclick="loadDiagram()">Visualize</button>
 
         <label for="timeslice">Time Quantum:</label>
         <input type="number" id="timeslice" name="timeslice" min="1" max="1000", step="1">
@@ -70,6 +71,11 @@
                 <span>Burst</span>
                 {{ form.burst }}
             </div>
+
+
+
+
+
             <button onclick="refreshDiagram()">Add</button>
             <button>Create Random</button>
             <button>Clear</button>
