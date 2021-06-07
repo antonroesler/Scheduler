@@ -16,8 +16,10 @@ class Simulator:
         self.process_list.add(name, burst, arrival)
 
     def load(self, new_session=False):
-        for p in self.get_processes():
-            self.add(p.name, p.arrival, p.burst)
+        all_processes = self.get_processes()
+        if all_processes:
+            for p in all_processes:
+                self.add(p.name, p.arrival, p.burst)
         else:
             self.load_demo()
 
