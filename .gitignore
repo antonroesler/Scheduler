@@ -8,3 +8,5 @@ lib
 etc
 .vscode/settings.json
 TestScreen/migrations/
+
+*.sqlite3
