@@ -34,9 +34,9 @@ def diagram(request, algo):
                           colors=s.scheduler.get_colors(), index_col='Task', show_colorbar=False)
     fig.update_layout(
         font_family="Menlo",
-        font_color="white",
+        font_color="#212121",
         title_font_family="Roboto",
-        title_font_color="white",
+        title_font_color="#212121",
     )
     fig.layout.xaxis.tickformat = "%Mm %Ss"  # Show minutes and Seconds as '00m 00s'
     return JsonResponse(fig.to_json(), safe=False)

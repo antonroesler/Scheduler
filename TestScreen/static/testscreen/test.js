@@ -31,10 +31,11 @@ async function loadDiagram(){
     plotly_data.layout.height = window.innerHeight - (upper+lower);
     console.log(plotly_data['layout']);
     plotly_data['layout']['title'] = get_title(algo);
-    plotly_data['layout']['paper_bgcolor'] = "#7575d7";
+    plotly_data['layout']['title_color'] = "#212121";
+    plotly_data['layout']['paper_bgcolor'] = "#eeeeee";
     plotly_data['layout']['plot_bgcolor'] = "#FFF";
     plotly_data['layout']['xaxis']['rangeselector'] = null;
-    plotly_data['layout']['template']['layout']['xaxis']['gridcolor'] = "#7575d7";
+    plotly_data['layout']['template']['layout']['xaxis']['gridcolor'] = "#eeeeee";
     Plotly.react('divPlotly', plotly_data.data, plotly_data.layout, {responsive: true, displayModeBar: false});
 }
 
@@ -52,3 +53,14 @@ function sessionIdCall(){
     const url = "http://127.0.0.1:8000/sess"
     fetch(url)
 }
+
+
+function setTimeSliceInputVisibility() {
+    let display_css = "none";
+    if (document.getElementById('algo-dropdown').value === 'rr'){
+        display_css = "block";
+    }
+    document.getElementById('quantum-input').style.display = display_css;
+}
+
+document.addEventListener("click", setTimeSliceInputVisibility);

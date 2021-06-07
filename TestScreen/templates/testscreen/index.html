@@ -19,10 +19,10 @@
             </div>
 
             <nav>
-                <a href="https://www.antonroesler.de/scheduler">About</a>
-                <a href="https://www.github.com/antonroesler/Scheduler">Code</a>
-                <a href="https://www.antonroesler.de">My Website</a>
-                <a href="https://www.linkedin.com/in/antonroesler/?locale=en_US">Linkedin</a>
+                <a class="btn" href="https://www.antonroesler.de/scheduler">About</a>
+                <a class="btn" href="https://www.github.com/antonroesler/Scheduler">Code</a>
+                <a class="btn" href="https://www.antonroesler.de">My Website</a>
+                <a class="btn" href="https://www.linkedin.com/in/antonroesler/?locale=en_US">Linkedin</a>
             </nav>
         </div>
     </header>
@@ -31,59 +31,66 @@
     </div>
 
     <section id="choose-algo">
-        <div class="custom-select" style="width:33%;">
-            <select name="algo" id="algo-dropdown">
-                <option value="none">Select a Scheduling Algorithm:</option>
-                <option value="fcfs">First Come First Served</option>
-                <option value="sjf">Shortest Job First</option>
-                <option value="hrrn">Highest Response Ratio Next</option>
-                <option value="srtf">Shortest Remaining Time First</option>
-                <option value="lrtf">Longest Remaining Time First</option>
-                <option value="rr">Round Robin</option>
-            </select>
+        <div style="width: 50%; justify-content: center">
+            <div class="custom-select" style="width:66%; float: right;">
+                <select name="algo" id="algo-dropdown">
+                    <option value="none">Select a Scheduling Algorithm:</option>
+                    <option value="fcfs">First Come First Served</option>
+                    <option value="sjf">Shortest Job First</option>
+                    <option value="hrrn">Highest Response Ratio Next</option>
+                    <option value="srtf">Shortest Remaining Time First</option>
+                    <option value="lrtf">Longest Remaining Time First</option>
+                    <option value="rr">Round Robin</option>
+                </select>
+            </div>
         </div>
-        <button onclick="loadDiagram()">Visualize</button>
-
-        <label for="timeslice">Time Quantum:</label>
-        <input type="number" id="timeslice" name="timeslice" min="1" max="1000", step="1">
-    </section>
-    </div>
-
-    <section id="diagram-section">
-         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <div id="divPlotly"></div>
-    </section>
-
-    <section id="add-section">
-        <form method="POST" action="/add">
-            {% csrf_token %}
-            <div>
-                <span>Process</span>
-                {{ form.name }}
+        <div style="width: 50%; display: flex; justify-content: space-around; height: 100%">
+            <div style="width: 50%">
+                <button class="btn" onclick="loadDiagram()" style="width: 50%; height: 100%">Visualize</button>
             </div>
-
-            <div>
-                <span>Arrival</span>
-                {{ form.arrival }}
+            <div style="width: 50%; height: 100%;">
+                <div id='quantum-input' class="field-wrapper" style="display: none; width: 100%; height: inherit">
+                    <span style="display: inline-block">Time Quantum:</span>
+                    <input style="display: inline-block; height: inherit" placeholder="3" class="txtf" type="number"
+                           id="timeslice" name="timeslice" min="1" max="1000" step="1">
+                </div>
             </div>
-
-            <div>
-                <span>Burst</span>
-                {{ form.burst }}
-            </div>
-
-
-
-
-
-            <button onclick="refreshDiagram()">Add</button>
-            <button>Create Random</button>
-            <button>Clear</button>
-        </form>
+        </div>
     </section>
-    <script>
-        loadDiagram()
-    </script>
-    <script src="{% static 'testscreen/dropdown.js' %}"></script>
+</div>
+
+<section id="diagram-section">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <div id="divPlotly"></div>
+</section>
+
+<section id="add-section">
+    <form method="POST" action="/add">
+        {% csrf_token %}
+        <div class="field-wrapper">
+            <span>Process</span>
+            {{ form.name }}
+        </div>
+
+        <div class="field-wrapper">
+            <span>Arrival</span>
+            {{ form.arrival }}
+        </div>
+
+        <div class="field-wrapper">
+            <span>Burst</span>
+            {{ form.burst }}
+        </div>
+
+
+        <button class="btn" onclick="refreshDiagram()">Add</button>
+        <button class="btn">Create Random</button>
+        <button class="btn">Clear</button>
+    </form>
+</section>
+<script>
+    loadDiagram()
+</script>
+<script src="{% static 'testscreen/dropdown.js' %}"></script>
 </body>
 </html>
