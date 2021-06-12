@@ -6,8 +6,11 @@ from copy import deepcopy
 __author__ = "Anton Roesler"
 __email__ = "anton.roesler@stud.fra-uas.de"
 
+from typing import List
+
+
 class Process:
-    def __init__(self, name: str, duration: int, arrival_time: int):
+    def __init__(self, name: str, duration: int, arrival_time: int, dependency: str = None):
         self.name = name
         self.duration = duration
         self.arrival_time = arrival_time
@@ -16,6 +19,7 @@ class Process:
         self.end_time = None  # Number of time units when the process ends, with 0 being the start of the simulation.
         self.row = 0  # A Measure needed for lrtf, indicates how many time units the process was processed continuously.
         self.row_start_time = None  # Indicates at what time unit the current row started.
+        self.dependency = dependency
 
     def finished(self) -> bool:
         """A quick check if a process is finished. The remaining time indicates how many time units are left until the
@@ -56,9 +60,9 @@ class ProcessListAdministration:
     def __init__(self):
         self.processes = []
 
-    def add(self, name: str, duration: int, arrival_time: int):
+    def add(self, name: str, duration: int, arrival_time: int, dependency: str):
         """Builds a new process object from given args. This new process is added to the process list."""
-        self.processes.append(Process(name, duration, arrival_time))
+        self.processes.append(Process(name, duration, arrival_time, dependency))
 
     def add_process(self, process: Process):
         """Adds a given process to the process list"""

@@ -30,13 +30,16 @@ def diagram(request, algo):
     s.scheduler.run(algo)
     data = s.scheduler.data_plotly_formatted()
     data = sorted(data, key=lambda i: i['Task'])
+    print(data)
+    print(s.scheduler.get_colors())
     fig = ff.create_gantt(data, group_tasks=True, showgrid_x=True, title="ALGO" + " visualized:",
-                          colors=s.scheduler.get_colors(), index_col='Task', show_colorbar=False)
+                           index_col='time_type', colors=s.scheduler.get_colors(), show_colorbar=True)
     fig.update_layout(
         font_family="Menlo",
         font_color="#212121",
         title_font_family="Roboto",
         title_font_color="#212121",
+        hovermode='y'
     )
     fig.layout.xaxis.tickformat = "%Mm %Ss"  # Show minutes and Seconds as '00m 00s'
     return JsonResponse(fig.to_json(), safe=False)

@@ -97,7 +97,7 @@ class Scheduler:
             possible_jobs = self.get_competing_processes()  # Get the list of competing jobs at this time point.
             possible_jobs.sort(key=lambda x: x.arrival_time)  # Sort by arrival time.
             current_job = None
-            for i in range(len(possible_jobs)):       # Check for every possible job
+            for i in range(len(possible_jobs)):  # Check for every possible job
                 current_job = possible_jobs[i]
                 if current_job in already_processed:  # if this jobs was already processed
                     current_job = None  # if it was, current jib is set back to none.
@@ -125,12 +125,14 @@ class Scheduler:
         """Returns a list of all jobs that already exist at this time (passed_time) and are not already finished."""
         competing_processes: List[Process] = []
         for process in self.process_list:
-            if process.arrival_time - self.passed_time <= 0 and not process.finished():
+            if process.arrival_time - self.passed_time <= 0 and not process.finished() \
+                    and not self.has_unfinished_dependencies(process):
                 competing_processes.append(process)  # only jobs that exist and are not finished.
         if len(competing_processes) > 0:  # Return list if there is at least one process in th list.
             return competing_processes
         else:  # If there is no job waiting to be processed, the passed time will be increased by one and the
             # function gets called again
+            self.dead_lock_check()
             self.passed_time += 1
             return self.get_competing_processes()
 
@@ -150,10 +152,10 @@ class Scheduler:
         self.passed_time += duration  # by increasing the passed time by the process's duration.
         process.process(duration, self.passed_time)  # The process itself need to be updated.
 
-    def add_data(self, process: Process, start: int, duration: int):
+    def add_data(self, process: Process, start: int, duration: int, time_type='burst'):
         """Every piece that gets processed is saved as an entry in the data table."""
-        finish = start+duration
-        self.data.append([process.name, start, finish, process.arrival_time])
+        finish = start + duration
+        self.data.append([process.name, start, finish, process.arrival_time, process.dependency, time_type])
 
     def time_formatter(self, time_units: int):
         secs = str(time_units % 60)
@@ -167,14 +169,20 @@ class Scheduler:
 
     def data_plotly_formatted(self) -> List:
         """Turns the data list into a list of dicts that can be used for the plotly/dash gantt chart."""
+        self.add_waiting_times()
         plotly_chart_data = []
         for entry in self.data:
+            print(entry)
             name = entry[0]
-            duration = entry[2]-entry[1]
+            duration = entry[2] - entry[1]
             start = self.time_formatter(entry[1])
             finish = self.time_formatter(entry[2])
-            plotly_chart_data.append(dict(Task=name, Start=start, Finish=finish,
-                                          Description=f'Task: {name} Duration: {duration} Arrival: {entry[3]}'))
+            if entry[4]:
+                plotly_chart_data.append(dict(Task=name, Start=start, Finish=finish, time_type=entry[5],
+                                              Description=f'Task: {name} <br>Duration: {duration} <br>Arrival: {entry[3]}<br>Dependency: {entry[4]}'))
+            else:
+                plotly_chart_data.append(dict(Task=name, Start=start, Finish=finish, time_type=entry[5],
+                                              Description=f'Task: {name} <br>Duration: {duration} <br>Arrival: {entry[3]}'))
         return plotly_chart_data
 
     def process_one_step(self, process, latest_job):
@@ -182,7 +190,7 @@ class Scheduler:
         if process != latest_job and latest_job is not None:
             # This is the case if the process that will be processed in this step is a different from the previous one.
             # Then the data from the previous one need to be added to the data table.
-            self.add_data(latest_job, latest_job.row_start_time, latest_job.row,)
+            self.add_data(latest_job, latest_job.row_start_time, latest_job.row, )
             latest_job.row_start_time = None
             latest_job.row = 0  # And the previous job's row data  goes back to 0.
 
@@ -213,7 +221,6 @@ class Scheduler:
             np.median(turnaround_times)
         ]
 
-
     def run_all(self):
         """Runs every algorithms and returns the stats in a dict for everyone of them."""
         stats = {}
@@ -232,15 +239,15 @@ class Scheduler:
         return stats
 
     def run(self, algo):
-        if algo=="sjf":
+        if algo == "sjf":
             return self.non_preemtive_algorithms(sjf=True)
-        elif algo=="hrrn":
+        elif algo == "hrrn":
             return self.non_preemtive_algorithms(hrrn=True)
-        elif algo=="srtf":
+        elif algo == "srtf":
             return self.remaining_time_first()
-        elif algo=="lrtf":
+        elif algo == "lrtf":
             return self.remaining_time_first(longest=True)
-        elif algo=="rr":
+        elif algo == "rr":
             return self.round_robin()
         else:
             return self.non_preemtive_algorithms()
@@ -270,7 +277,39 @@ class Scheduler:
         for process in self.process_list:
             color_dict[process.name] = colors[i % len(colors)]
             i += 1
-        return color_dict
+        return {'burst': '#101820FF', 'waiting': '#FEE715FF'}
 
     def set_quantum(self, value: int):
         self.quantum = value
+
+    def has_unfinished_dependencies(self, process):
+        for p in self.process_list:
+            if p.name == process.dependency and p.finished() is False:
+                return True
+        return False
+
+    def dead_lock_check(self):
+        pass
+
+    def add_waiting_times(self):
+        for process in self.process_list:
+            i = process.arrival_time
+            waiting = 0
+            while i < process.end_time:
+                if self.is_bursting_at(i+1, process):
+                    print(f"BURST {process.name} {waiting}" )
+                    if waiting>0:
+                        self.add_data(process, i - waiting, duration=waiting, time_type="waiting")
+                        print(f"{process.name} {waiting}")
+                        waiting = 0
+                else:
+                    print("noBURST"+process.name)
+                    waiting += 1
+                i += 1
+
+    def is_bursting_at(self, i, process):
+        for entry in self.data:
+            if entry[0] == process.name:
+                if entry[1] < i <= entry[2]:
+                    return True
+        return False
