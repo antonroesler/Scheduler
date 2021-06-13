@@ -30,8 +30,7 @@ def diagram(request, algo):
     s.scheduler.run(algo)
     data = s.scheduler.data_plotly_formatted()
     data = sorted(data, key=lambda i: i['Task'])
-    print(data)
-    print(s.scheduler.get_colors())
+    print(s.scheduler.run_all())
     fig = ff.create_gantt(data, group_tasks=True, showgrid_x=True, title="ALGO" + " visualized:",
                            index_col='time_type', colors=s.scheduler.get_colors(), show_colorbar=True)
     fig.update_layout(
@@ -61,13 +60,18 @@ def sess(request):
     return HttpResponse(200)
 
 def clear(request):
-    print("clear from python")
     s = Simulator(request.session.get("session_id"))
     s.delete_all_processes()
     return HttpResponse(status=204)
 
 def random(request):
-    print("RANDY")
     s = Simulator(request.session.get("session_id"))
     s.add_random()
     return HttpResponse(status=204)
+
+def comp(request):
+    s = Simulator(request.session.get("session_id"))
+    s.load()
+    data = s.scheduler.run_all()
+    print(data)
+    return JsonResponse(data, safe=False)

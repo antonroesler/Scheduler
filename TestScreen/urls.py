@@ -8,5 +8,6 @@ urlpatterns = [
     path('add', views.addProcess),
     path('sess', views.sess),
     path('clear', views.clear),
-    path('random', views.random)
+    path('random', views.random),
+    path('comp', views.comp),
 ]
