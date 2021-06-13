@@ -6,5 +6,7 @@ urlpatterns = [
     path('diagram', views.diagram),
     path('diagram/<str:algo>', views.diagram),
     path('add', views.addProcess),
-    path('sess', views.sess)
+    path('sess', views.sess),
+    path('clear', views.clear),
+    path('random', views.random)
 ]

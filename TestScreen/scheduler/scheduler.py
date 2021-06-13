@@ -172,7 +172,6 @@ class Scheduler:
         self.add_waiting_times()
         plotly_chart_data = []
         for entry in self.data:
-            print(entry)
             name = entry[0]
             duration = entry[2] - entry[1]
             start = self.time_formatter(entry[1])
@@ -297,13 +296,10 @@ class Scheduler:
             waiting = 0
             while i < process.end_time:
                 if self.is_bursting_at(i+1, process):
-                    print(f"BURST {process.name} {waiting}" )
                     if waiting>0:
                         self.add_data(process, i - waiting, duration=waiting, time_type="waiting")
-                        print(f"{process.name} {waiting}")
                         waiting = 0
                 else:
-                    print("noBURST"+process.name)
                     waiting += 1
                 i += 1
 

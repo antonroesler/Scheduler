@@ -24,12 +24,10 @@ async function loadDiagram(){
     const res = await fetch(url+algo);
     const data = await res.json();
     const obj = JSON.parse(data)
-    console.log(obj['layout']);
     let plotly_data = obj;
     const upper = getHeight("upper-bound");
     const lower = getHeight("add-section");
     plotly_data.layout.height = window.innerHeight - (upper+lower);
-    console.log(plotly_data['layout']);
     plotly_data['layout']['title'] = get_title(algo);
     plotly_data['layout']['title_color'] = "#212121";
     plotly_data['layout']['paper_bgcolor'] = "#eeeeee";
@@ -54,6 +52,17 @@ function sessionIdCall(){
     fetch(url)
 }
 
+async function clearX(){
+    const url = "http://127.0.0.1:8000/clear"
+    await fetch(url)
+    await loadDiagram()
+}
+
+async function addRandom(){
+    const url = "http://127.0.0.1:8000/random"
+    await fetch(url)
+    await loadDiagram()
+}
 
 function setTimeSliceInputVisibility() {
     let display_css = "none";

@@ -1,5 +1,5 @@
 import datetime
-import random
+from random import randint
 import time
 
 import datetime
@@ -24,7 +24,7 @@ def index(request):
 
 def diagram(request, algo):
     if request.session.get("session_id") is None:
-        request.session['session_id'] = random.randint(1000000000, 9999999999)
+        request.session['session_id'] = randint(1000000000, 9999999999)
     s = Simulator(request.session.get("session_id"))
     s.load()
     s.scheduler.run(algo)
@@ -59,3 +59,15 @@ def addProcess(request):
 def sess(request):
     print(request.session.get("session_id"))
     return HttpResponse(200)
+
+def clear(request):
+    print("clear from python")
+    s = Simulator(request.session.get("session_id"))
+    s.delete_all_processes()
+    return HttpResponse(status=204)
+
+def random(request):
+    print("RANDY")
+    s = Simulator(request.session.get("session_id"))
+    s.add_random()
+    return HttpResponse(status=204)
