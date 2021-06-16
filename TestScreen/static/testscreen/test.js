@@ -73,7 +73,14 @@ function setTimeSliceInputVisibility() {
 }
 
 document.addEventListener("click", setTimeSliceInputVisibility);
-var X = null;
+
+function rounded(arr) {
+    const r = [];
+    arr.forEach(value =>{
+        r.push(Math.round(value))
+    });
+    return r;
+}
 
 async function makeComparison() {
     const url = "http://127.0.0.1:8000/comp"
@@ -87,48 +94,85 @@ async function makeComparison() {
         y: json['fcfs'],
         type: 'bar',
         name: 'First Come First Served',
-        marker:{color: '#FEE715FF'}
+        text:rounded(json['fcfs']),
+        marker:{color: '#FEE715FF'},
+        textfont: {
+            family: 'Impact, monospace',
+            color: '#FEE715FF'
+        },
+        hovertemplate: '<extra></extra>'
     };
     var trace2 = {
         x: x,
         y: json['sjf'],
         type: 'bar',
         name: 'Shortest Job First',
-        marker: {color: '#FEE715FF'}
+        text:rounded(json['sjf']),
+        marker: {color: '#FEE715FF'},
+        textfont: {
+            family: 'Impact, monospace',
+            color: '#FEE715FF'
+        },
+        hovertemplate: '<extra></extra>'
     };
     var trace3 = {
         x: x,
         y: json['rr'],
         type: 'bar',
         name: 'Round Robin',
-        marker: {color: '#FEE715FF'}
+        text:rounded(json['rr']),
+        marker: {color: '#FEE715FF'},
+        textfont: {
+            family: 'Impact, monospace',
+            color: '#FEE715FF'
+        },
+        hovertemplate: '<extra></extra>'
     };
     var trace4 = {
         x: x,
         y: json['lrtf'],
         type: 'bar',
         name: 'Longest Remaining Time First',
-        marker: {color: '#FEE715FF'}
+        text:rounded(json['lrtf']),
+        marker: {color: '#FEE715FF'},
+        textfont: {
+            family: 'Impact, monospace',
+            color: '#FEE715FF'
+        },
+        hovertemplate: '<extra></extra>'
     };
     var trace5 = {
         x: x,
         y: json['srtf'],
         type: 'bar',
         name: 'Shortest Remaining Time First',
-        marker: {color: '#FEE715FF'}
+        text:rounded(json['srtf']),
+        marker: {color: '#FEE715FF'},
+        textfont: {
+            family: 'Impact, monospace',
+            color: '#FEE715FF'
+        },
+        hovertemplate: '<extra></extra>'
     };
     var trace6 = {
         x: x,
         y: json['hrrn'],
         type: 'bar',
         name: 'Highest Response Ratio Next',
-        marker: {color: '#FEE715FF'}
+        marker: {color: '#FEE715FF'},
+        text:rounded(json['hrrn']),
+        textposition: null,
+        textfont: {
+            family: 'Impact, monospace',
+            color: '#FEE715FF'
+        },
+        hovertemplate: '<extra></extra>'
     };
     const data = [trace1, trace2, trace3, trace4, trace5, trace6]
 
     const upper = getHeight("upper-bound");
     const lower = getHeight("add-section");
-    const layout = {hovermode: 'closest'}
+    const layout = {hovermode: 'closest', hoverinfo: "skip", hover}
     layout.height = window.innerHeight - (upper + lower);
     layout['title'] = 'Compare Scheduling Algorithms';
     layout['title_color'] = "#212121";
@@ -136,17 +180,16 @@ async function makeComparison() {
     layout['plot_bgcolor'] = "#FFF";
 
     const canvas = document.getElementById('divPlotly');
-    X = Plotly.newPlot(canvas, data, layout);
+    Plotly.newPlot(canvas, data, layout);
     canvas.on('plotly_hover', hover);
     canvas.on('plotly_unhover', unhover);
-    console.log(data)
 }
 
 /**
  * Colors the the algorithms of tha bar that is hover over in black.
  */
 function hover(data) {
-    var update = {'marker': {color: '#101820FF'}}
+    var update = {'marker': {color: '#101820FF'}, textposition: 'auto'}
     Plotly.restyle('divPlotly', update, [data.points[0].curveNumber])
 }
 
@@ -154,6 +197,6 @@ function hover(data) {
  * Colors all bars yellow
  */
 function unhover(){
-    var update = {'marker': {color: '#FEE715FF'}}
+    var update = {'marker': {color: '#FEE715FF'}, textposition: null}
     Plotly.restyle('divPlotly', update)
 }
