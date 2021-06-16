@@ -34,7 +34,8 @@ async function loadDiagram() {
     plotly_data['layout']['plot_bgcolor'] = "#FFF";
     plotly_data['layout']['xaxis']['rangeselector'] = null;
     plotly_data['layout']['template']['layout']['xaxis']['gridcolor'] = "#eeeeee";
-    Plotly.react('divPlotly', plotly_data.data, plotly_data.layout, {responsive: true, displayModeBar: false});
+    plotly_data['layout']['hovermode'] = false
+    Plotly.react('divPlotly', plotly_data.data, plotly_data.layout, {responsive: false, displayModeBar: false});
 }
 
 
@@ -199,4 +200,27 @@ function hover(data) {
 function unhover(){
     var update = {'marker': {color: '#FEE715FF'}, textposition: null}
     Plotly.restyle('divPlotly', update)
+}
+
+function increaseTimeSlice(){
+    setTimeSliceInHtml(getTimeSliceInHtml()+1)
+}
+
+function decreaseTimeSlice(){
+    setTimeSliceInHtml(getTimeSliceInHtml()+1)
+}
+
+/**
+ * Returns the displayed time slice.
+ * @returns {number}
+ */
+function getTimeSliceInHtml(){
+    return Number(document.getElementById('time-slice').innerHTML)
+}
+/**
+ * Sets the displayed value of the time slice.
+ * @param value
+ */
+function setTimeSliceInHtml(value){
+document.getElementById('time-slice').innerHTML = value
 }

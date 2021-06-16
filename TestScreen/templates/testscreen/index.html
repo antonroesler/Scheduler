@@ -31,7 +31,7 @@
     </div>
 
     <section id="choose-algo">
-        <div style="width: 50%; justify-content: center">
+        <div style="width: 50%; justify-content: center; height: 100%">
             <div class="custom-select" style="width:66%; float: right;">
                 <select name="algo" id="algo-dropdown">
                     <option value="none">Select a Scheduling Algorithm:</option>
@@ -44,17 +44,15 @@
                 </select>
             </div>
         </div>
-        <div style="width: 50%; display: flex; justify-content: space-around; height: 100%">
-            <div style="width: 50%; display: flex; flex-direction: row; justify-content: space-around">
-                <button class="btn" onclick="loadDiagram()" style="width: 50%; height: 100%">Visualize</button>
-                <button class="btn" onclick="makeComparison()" style="width: 50%; height: 100%">Compare</button>
+        <div style="width: 50%; display: flex; justify-content: space-around; height: inherit">
+            <div style="width: 75%; display: flex; flex-direction: row; justify-content: space-around">
+                <button class="btn" onclick="loadDiagram()" style="width: 40%; height: 100%">Visualize</button>
+                <button class="btn" onclick="makeComparison()" style="width: 40%; height: 100%">Compare</button>
             </div>
-            <div style="width: 50%; height: 100%;">
-                <div id='quantum-input' class="field-wrapper" style="display: none; width: 100%; height: inherit">
-                    <span style="display: inline-block">Time Quantum:</span>
-                    <input style="display: inline-block; height: inherit" placeholder="3" class="txtf" type="number"
-                           id="timeslice" name="timeslice" min="1" max="1000" step="1">
-                </div>
+            <div style="width: 25%; height: 100%; display: flex; justify-content: space-between; text-align: center">
+                <button class="btn" onclick="decreaseTimeSlice()" style="width: 33.3333%">-</button>
+                <button id="time-slice" class="btn" style="width: 33.3333%; border: 0">3</button>
+                <button class="btn" onclick="increaseTimeSlice()" style="width: 33.3333%">+</button>
             </div>
         </div>
     </section>
