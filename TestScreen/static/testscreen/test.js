@@ -137,31 +137,23 @@ async function makeComparison() {
 
     const canvas = document.getElementById('divPlotly');
     X = Plotly.newPlot(canvas, data, layout);
-    canvas.on('plotly_hover', clickHandler);
+    canvas.on('plotly_hover', hover);
     canvas.on('plotly_unhover', unhover);
     console.log(data)
 }
 
 /**
- * Handles click events on the histogram.
- * @param evt
+ * Colors the the algorithms of tha bar that is hover over in black.
  */
-function clickHandler(data) {
-    console.log(data)
-    console.log(data.points[0].data.name)
-
+function hover(data) {
     var update = {'marker': {color: '#101820FF'}}
-
-
     Plotly.restyle('divPlotly', update, [data.points[0].curveNumber])
-
 }
 
+/**
+ * Colors all bars yellow
+ */
 function unhover(){
-        const names = ["F"]
-
     var update = {'marker': {color: '#FEE715FF'}}
-
-
     Plotly.restyle('divPlotly', update)
 }
