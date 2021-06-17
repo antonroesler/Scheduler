@@ -10,3 +10,4 @@ etc
 TestScreen/migrations/
 
 *.sqlite3
+*.sqlite3
