@@ -49,10 +49,10 @@
                 <button class="btn" onclick="loadDiagram()" style="width: 40%; height: 100%">Visualize</button>
                 <button class="btn" onclick="makeComparison()" style="width: 40%; height: 100%">Compare</button>
             </div>
-            <div style="width: 25%; height: 100%; display: flex; justify-content: space-between; text-align: center">
-                <button class="btn" onclick="decreaseTimeSlice()" style="width: 33.3333%">-</button>
-                <button id="time-slice" class="btn" style="width: 33.3333%; border: 0">3</button>
-                <button class="btn" onclick="increaseTimeSlice()" style="width: 33.3333%">+</button>
+            <div id="quantum-input" style="width: 25%; height: 100%; display: none; justify-content: left; text-align: center">
+                <button class="btn" id="time-slice-minus" onclick="decreaseTimeSlice()" onmousedown="xy()" style="width: 25%; float: left">-</button>
+                <button id="time-slice" class="btn" style="width: 25%; border: 0; float: left">3</button>
+                <button class="btn" id="time-slice-plus" onclick="increaseTimeSlice()" style="width: 25%; float: left">+</button>
             </div>
         </div>
     </section>
@@ -89,6 +89,7 @@
 </section>
 <script>
     loadDiagram()
+    addListeners()
 </script>
 <script src="{% static 'testscreen/dropdown.js' %}"></script>
 </body>

@@ -22,11 +22,13 @@ def index(request):
     })
 
 
-def diagram(request, algo):
+def diagram(request, algo, time_slice=None):
     if request.session.get("session_id") is None:
         request.session['session_id'] = randint(1000000000, 9999999999)
     s = Simulator(request.session.get("session_id"))
     s.load()
+    if time_slice:
+        s.scheduler.set_quantum(time_slice)
     s.scheduler.run(algo)
     data = s.scheduler.data_plotly_formatted()
     data = sorted(data, key=lambda i: i['Task'])

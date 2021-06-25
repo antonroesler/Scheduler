@@ -21,7 +21,13 @@ function get_title(algo) {
 async function loadDiagram() {
     const url = 'http://127.0.0.1:8000/diagram/';
     const algo = document.getElementById("algo-dropdown").value;
-    const res = await fetch(url + algo);
+    let res;
+    if (algo==='rr'){
+        const time_slice = document.getElementById('time-slice').innerText;
+         res = await fetch(url + algo + '/' + time_slice);
+    } else{
+        res = await fetch(url + algo);
+    }
     const data = await res.json();
     const obj = JSON.parse(data)
     let plotly_data = obj;
@@ -68,7 +74,7 @@ async function addRandom() {
 function setTimeSliceInputVisibility() {
     let display_css = "none";
     if (document.getElementById('algo-dropdown').value === 'rr') {
-        display_css = "block";
+        display_css = "flex";
     }
     document.getElementById('quantum-input').style.display = display_css;
 }
@@ -202,12 +208,12 @@ function unhover(){
     Plotly.restyle('divPlotly', update)
 }
 
-function increaseTimeSlice(){
-    setTimeSliceInHtml(getTimeSliceInHtml()+1)
+function increaseTimeSlice(amount=1){
+    setTimeSliceInHtml(getTimeSliceInHtml()+amount)
 }
 
-function decreaseTimeSlice(){
-    setTimeSliceInHtml(getTimeSliceInHtml()+1)
+function decreaseTimeSlice(amount=1){
+    setTimeSliceInHtml(getTimeSliceInHtml()-amount)
 }
 
 /**
@@ -224,3 +230,11 @@ function getTimeSliceInHtml(){
 function setTimeSliceInHtml(value){
 document.getElementById('time-slice').innerHTML = value
 }
+
+
+function xy(){
+    setTimeout(function (){
+        decreaseTimeSlice(10)
+    }, 500)
+}
+
