@@ -37,7 +37,7 @@ def diagram(request, algo, time_slice=None):
                            index_col='time_type', colors=s.scheduler.get_colors(), show_colorbar=True)
     fig.update_layout(
         font_family="Menlo",
-        font_color="#212121",
+        font_color="#000000",
         title_font_family="Roboto",
         title_font_color="#212121",
         hovermode='y'

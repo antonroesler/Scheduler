@@ -1,21 +1,36 @@
-const algorithms = {
-    "fcfs": "First Come First Served",
-    "hrrn": "Highest Response Ratio Next",
-    "sjf": "Shortest Job First",
-    "srtf": "Shortest Remaining Time First",
-    "lrtf": "Longest Remaining Time First",
-    "rr": "Round Robin"
+/**
+ * Loads chart and displays it on the canvas.
+ * @returns {Promise<void>}
+ */
+async function loadDiagram() {
+    const url = 'diagram/';
+    const algo = document.getElementById("algo-dropdown").value;
+    let res;
+    if (algo==='rr'){
+        const time_slice = document.getElementById('time-slice').innerText;
+        res = await fetch(url + algo + '/' + time_slice);
+    } else{
+        console.log(algo)
+        console.log(url)
+        res = await fetch(url + algo);
+    }
+    const data = await res.json();
+    let plotly_data = JSON.parse(data);
+    stylePlotlyGanttChart(plotly_data, algo);
+    Plotly.react('divPlotly', plotly_data.data, plotly_data.layout, {responsive: false, displayModeBar: false});
 }
 
-function get_title(algo) {
-    return algorithms[algo] + " visualized:"
-}
-
+/**
+ * Styles the chart.
+ * @param plotly_data
+ * @param algo
+ */
 function stylePlotlyGanttChart(plotly_data, algo) {
     const upper = getHeight("upper-bound");
     const lower = getHeight("add-section");
     plotly_data.layout.height = window.innerHeight - (upper + lower);
-    plotly_data['layout']['title'] = get_title(algo);
+    plotly_data['layout']['title'] = getTitle(algo);
+    console.log(algo)
     plotly_data['layout']['title_color'] = "#212121";
     plotly_data['layout']['paper_bgcolor'] = "#eeeeee";
     plotly_data['layout']['plot_bgcolor'] = "#FFF";
@@ -24,50 +39,33 @@ function stylePlotlyGanttChart(plotly_data, algo) {
     plotly_data['layout']['hovermode'] = false
 }
 
-async function loadDiagram() {
-    const url = 'diagram/';
-    const algo = document.getElementById("algo-dropdown").value;
-    let res;
-    if (algo==='rr'){
-        const time_slice = document.getElementById('time-slice').innerText;
-         res = await fetch(url + algo + '/' + time_slice);
-    } else{
-        res = await fetch(url + algo);
-    }
-    const data = await res.json();
-    const obj = JSON.parse(data)
-    let plotly_data = obj;
-    stylePlotlyGanttChart(plotly_data, algo);
-    Plotly.react('divPlotly', plotly_data.data, plotly_data.layout, {responsive: false, displayModeBar: false});
-}
 
-
-function getHeight(element) {
-    return document.getElementById(element).offsetHeight;
-}
-
+/**
+ * Refreshes the diagram after 50 ms.
+ */
 function refreshDiagram() {
     setTimeout(loadDiagram, 50);
 }
 
-
-function sessionIdCall() {
-    const url = "http://127.0.0.1:8000/sess"
-    fetch(url)
-}
-
-async function clearX() {
-    const url = "clear"
-    await fetch(url)
+/**
+ * Clears Scheduler from all processes and reloads diagram.
+ */
+async function clearChart() {
+    await fetch("clear")
     await loadDiagram()
 }
 
+/**
+ * Adds a new random process scheduler and reloads diagram.
+ */
 async function addRandom() {
-    const url = "random"
-    await fetch(url)
+    await fetch("random")
     await loadDiagram()
 }
 
+/**
+ * Sets the visibility of the time slice buttons. Only visible if algorithm is round robin.
+ */
 function setTimeSliceInputVisibility() {
     let display_css = "none";
     if (document.getElementById('algo-dropdown').value === 'rr') {
@@ -190,6 +188,26 @@ async function makeComparison() {
 }
 
 /**
+ * Increases the value ov the time-slice (round robin) by 1 or amount.
+ * @param amount
+ */
+function increaseTimeSlice(amount=1){
+    setTimeSliceInHtml(getTimeSliceInHtml()+amount)
+}
+
+/**
+ * Decreases the value ov the time-slice (round robin) by 1 or amount.
+ * @param amount
+ */
+function decreaseTimeSlice(amount=1){
+    const current = getTimeSliceInHtml();
+    if (Number(current) > 1){
+        setTimeSliceInHtml(current-amount)
+    }
+
+}
+
+/**
  * Colors the the algorithms of tha bar that is hover over in black.
  */
 function hover(data) {
@@ -204,32 +222,3 @@ function unhover(){
     var update = {'marker': {color: '#FEE715FF'}, textposition: null}
     Plotly.restyle('divPlotly', update)
 }
-
-function increaseTimeSlice(amount=1){
-    setTimeSliceInHtml(getTimeSliceInHtml()+amount)
-}
-
-function decreaseTimeSlice(amount=1){
-    const current = getTimeSliceInHtml();
-    if (Number(current) > 1){
-        setTimeSliceInHtml(current-amount)
-    }
-
-}
-
-/**
- * Returns the displayed time slice.
- * @returns {number}
- */
-function getTimeSliceInHtml(){
-    return Number(document.getElementById('time-slice').innerHTML)
-}
-/**
- * Sets the displayed value of the time slice.
- * @param value
- */
-function setTimeSliceInHtml(value){
-document.getElementById('time-slice').innerHTML = value
-}
-
-

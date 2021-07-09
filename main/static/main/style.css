@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;900&family=Roboto:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,100&display=swap');/*
+:root {
+    --primary-bg-color: #242582;
+    --secondary-bg-color: #99738E;
+    --accent-color: #2F2fA2;
+    --accent-activated-color: #F64C72;
+    --danger-color: #FAEd26;
+    --text-color: #FFF;
+    --text-color--dark: #553D67;
+}
+*/
+:root {
+    --primary-bg-color: #eeeeee;
+    --secondary-bg-color: #424242;
+    --accent-color: #eeeeee;
+    --danger-color: #d50000;
+    --button-border: #212121;
+    --text-dark: #212121;
+    --text-light: #FFFFFF;
+}
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    color: var(--text-dark);
+    background-color: var(--primary-bg-color);
+}
+
+.btn {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 0.2rem solid var(--button-border);
+    text-align: center;
+    cursor: pointer;
+    font-weight: bolder;
+    padding: 0.5rem;
+}
+
+.txtf, input {
+    color: var(--text-dark);
+    border: 0.2rem solid var(--button-border);
+    padding: 0.5rem 0.8rem;
+}
+
+.txtf:focus, input:focus {
+    border-color: var(--danger-color);
+}
+
+.btn:hover {
+    color: var(--text-light);
+    background-color: var(--button-border);
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Open Sans', sans-serif;
+}
+
+header {
+    padding: 1rem 1rem 0.5rem;
+}
+
+header h1{
+    margin: 0;
+}
+
+header > div > div{
+    margin-bottom: 0.5rem;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+nav > a{
+    text-decoration: none;
+    padding: 0.5rem;
+    margin: 0 0.5rem 0 0;
+    display: inline-block;
+    min-width: 5rem;
+    text-align: center;
+}
+
+#choose-algo {
+    height: auto;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    align-content: space-around;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.thin-line {
+    width: 80%;
+    height: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--accent-color);
+}
+
+
+#add-section{
+    float: bottom;
+    padding: 1rem;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.field-wrapper {
+    display: inline-block;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.field-wrapper > * {
+    display: block;
+}
+.field-wrapper > span{
+    font-weight: bold;
+}
+
+#add-section button {
+    text-decoration: none;
+    padding: 0.5rem;
+    margin: 0 0.5rem 0 0;
+    display: inline-block;
+    min-width: 8rem;
+}
+
+#add-section button:last-child:hover {
+    background-color: var(--danger-color);
+}
+
+
+
+input:focus{
+    outline: 0;
+}
+
+#diagram-section {
+    width: 100%;
+    height: auto;
+}
+
+#divPlotly {
+    width: 100%;
+    height: auto;
+}
+
+/* Custom Dropdown */
+
+/* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: var(--button-border) transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent var(--button-border) transparent;
+  top: 7px;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+.select-selected {
+    background-color: var(--primary-bg-color);
+    border: 0.2rem solid var(--button-border);
+}
+
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: var(--primary-bg-color);
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: var(--button-border);
+    color: var(--text-light);
+}

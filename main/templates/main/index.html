@@ -5,8 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Index Page</title>
-    <script src="{% static 'testscreen/test.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'testscreen/style.css' %}">
+    <script src="{% static 'main/staticUtil.js' %}"></script>
+    <script src="{% static 'main/index.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
 </head>
 
 <body>
@@ -22,7 +23,7 @@
                 <a class="btn" href="https://www.antonroesler.de/scheduler">About</a>
                 <a class="btn" href="https://www.github.com/antonroesler/Scheduler">Code</a>
                 <a class="btn" href="https://www.antonroesler.de">My Website</a>
-                <a class="btn" href="https://www.linkedin.com/in/antonroesler/?locale=en_US">Linkedin</a>
+                <a class="btn" href="https://www.linkedin.com/in/antonroesler/?locale=en_US">LinkedIn</a>
             </nav>
         </div>
     </header>
@@ -34,7 +35,7 @@
         <div style="width: 50%; justify-content: center; height: 100%">
             <div class="custom-select" style="width:66%; float: right;">
                 <select name="algo" id="algo-dropdown">
-                    <option value="none">Select a Scheduling Algorithm:</option>
+                    <option value="fcfs">Select a Scheduling Algorithm:</option>
                     <option value="fcfs">First Come First Served</option>
                     <option value="sjf">Shortest Job First</option>
                     <option value="hrrn">Highest Response Ratio Next</option>
@@ -84,13 +85,12 @@
 
         <button class="btn" onclick="refreshDiagram()">Add</button>
         <button class="btn" type="button" onclick="addRandom()">Create Random</button>
-        <button class="btn" type="button" onclick="clearX()">Clear</button>
+        <button class="btn" type="button" onclick="clearChart()">Clear</button>
     </form>
 </section>
 <script>
     loadDiagram()
-    addListeners()
 </script>
-<script src="{% static 'testscreen/dropdown.js' %}"></script>
+<script src="{% static 'main/dropdown.js' %}"></script>
 </body>
 </html>
