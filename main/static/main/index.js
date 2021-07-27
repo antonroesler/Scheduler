@@ -30,7 +30,6 @@ function stylePlotlyGanttChart(plotly_data, algo) {
     const lower = getHeight("add-section");
     plotly_data.layout.height = window.innerHeight - (upper + lower);
     plotly_data['layout']['title'] = getTitle(algo);
-    console.log(algo)
     plotly_data['layout']['title_color'] = "#212121";
     plotly_data['layout']['paper_bgcolor'] = "#eeeeee";
     plotly_data['layout']['plot_bgcolor'] = "#FFF";
@@ -41,10 +40,10 @@ function stylePlotlyGanttChart(plotly_data, algo) {
 
 
 /**
- * Refreshes the diagram after 50 ms.
+ * Refreshes the diagram after 250 ms. TODO: Find a solution for this.
  */
 function refreshDiagram() {
-    setTimeout(loadDiagram, 50);
+    setTimeout(loadDiagram, 250);
 }
 
 /**
@@ -85,8 +84,7 @@ function rounded(arr) {
 }
 
 async function makeComparison() {
-    const url = "http://127.0.0.1:8000/comp"
-    const res = await fetch(url)
+    const res = await fetch("comp")
     const json = await res.json()
     console.log(json)
     const x = ["Waiting Mean", "Waiting Median", "Turnaround Mean", "Turnaround Median"]
