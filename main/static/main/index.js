@@ -10,8 +10,6 @@ async function loadDiagram() {
         const time_slice = document.getElementById('time-slice').innerText;
         res = await fetch(url + algo + '/' + time_slice);
     } else{
-        console.log(algo)
-        console.log(url)
         res = await fetch(url + algo);
     }
     const data = await res.json();
@@ -86,7 +84,6 @@ function rounded(arr) {
 async function makeComparison() {
     const res = await fetch("comp")
     const json = await res.json()
-    console.log(json)
     const x = ["Waiting Mean", "Waiting Median", "Turnaround Mean", "Turnaround Median"]
 
     var trace1 = {

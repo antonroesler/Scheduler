@@ -15,7 +15,6 @@ const algorithms = {
  * @returns {string}
  */
 function getTitle(algo) {
-    console.log(algo)
     return algorithms[algo] + " visualized:"
 }
 
